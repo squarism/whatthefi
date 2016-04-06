@@ -1,0 +1,136 @@
+#!/usr/bin/env ruby
+
+require 'slop'
+require 'net/http'
+require 'json'
+
+class CLI
+
+  # set up defaults in its own method
+  def cli_flags
+    options = Slop::Options.new
+    options.banner =  "usage: tubes [options] ..."
+    options.separator ""
+    options.separator "Options:"
+    options.boolean    "-i", "--ip", "What is my ip?"
+    options.string    "-p", "--port", "Can I get to a port?"
+    options.string    "-d", "--down", "Is this URL down for everyone or just me?"
+
+    options
+  end
+
+  def parse_arguments(command_line_options, parser)
+    begin
+      # slop has the advantage over optparse that it can do strings and not just ARGV
+      result = parser.parse command_line_options
+      result.to_hash
+
+    # Very important to not bury this begin/rescue logic in another method
+    # otherwise it will be difficult to check to see if -h or --help was passed
+    # in this case -h acts as an unknown option as long as we don't define it
+    # in cli_flags.
+    rescue Slop::UnknownOption
+      # print help
+      puts cli_flags
+      exit
+      # If, for your program, you can't exit here, then reraise Slop::UnknownOption
+      # raise a custom exception, push the rescue up to main or track that "help was invoked"
+    end
+  end
+
+  def flags
+    [:ip, :port, :down]
+  end
+
+  def flags_error
+    switches = flags.collect {|f| "--#{f}"}
+    puts cli_flags
+    puts
+    abort "please set one of #{switches}"
+  end
+
+  # In a cli app where you essentially have subcommands like git
+  # this method makes sure that one of the main "modes" is set.
+  # Something like:
+  #   person --run
+  #   person --walk
+  #   person --stop
+  def number_of_required_flags_set(arguments)
+    # --ip isn't required
+    minimum_flags = flags - [:ip]
+    valid_flags = minimum_flags.collect {|a| arguments.fetch(a) }.compact
+    valid_flags.count
+  end
+
+  # slop does not take on the job of requiring arguments to be set
+  # this method represents our validation rules
+  def validate_arguments(arguments)
+    # require 'pry'; binding.pry
+    # --ip is false by default because it's a Slop boolean
+    if number_of_required_flags_set(arguments) < 1 && !arguments.fetch(:ip)
+      flags_error
+    end
+  end
+
+  def set?(arguments, flag)
+    !arguments.fetch(flag).nil?
+  end
+
+  # main style entry point
+  def main(command_line_options=ARGV)
+    parser = Slop::Parser.new cli_flags
+    arguments = parse_arguments(command_line_options, parser)
+    validate_arguments arguments
+
+    # require 'pry'; binding.pry
+    # --ip is a boolean, it is set to false even if left off by slop
+    if arguments.fetch(:ip)
+      puts what_is_my_ip
+    elsif set?(arguments, :port)
+      puts portquiz arguments[:port]
+    elsif set?(arguments, :down)
+      puts is_it_up arguments[:down]
+    end
+  end
+
+  def http_get(url)
+    response = nil
+    begin
+      response = Net::HTTP.get(URI(url))
+    rescue SocketError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+      puts e.inspect
+    end
+    response
+  end
+
+  # outside of scope but you can see these are action methods here
+  # these could easily be broken out to classes
+  def what_is_my_ip
+    response = http_get("https://httpbin.org/ip")
+    "Your IP is #{JSON.parse(response)['origin']}"
+  end
+
+  def portquiz(port)
+    response = http_get("http://portquiz.net:#{port}")
+    if response
+      "I can get to port #{port} on the Internet.  :)"
+    else
+      "I can't reach port #{port} on the Internet.  :("
+    end
+  end
+
+  def is_it_up(url)
+    response = http_get("http://www.downforeveryoneorjustme.com/#{url}")
+
+    # lazy html parsing to avoid nokogiri
+    html_match = response.match(/class="domain"\>.*\<\/a\>(.*)\./)
+    if html_match[1].include? "is up"
+      "#{url} seems up.  :)"
+    elsif html_match[1].include? "looks down"
+      "#{url} seems down.  :("
+    end
+  end
+
+end
+
+CLI.new.main if !defined?(RSpec)
