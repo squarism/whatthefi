@@ -65,7 +65,6 @@ class CLI
   # slop does not take on the job of requiring arguments to be set
   # this method represents our validation rules
   def validate_arguments(arguments)
-    # require 'pry'; binding.pry
     # --ip is false by default because it's a Slop boolean
     if number_of_required_flags_set(arguments) < 1 && !arguments.fetch(:ip)
       flags_error
@@ -82,7 +81,6 @@ class CLI
     arguments = parse_arguments(command_line_options, parser)
     validate_arguments arguments
 
-    # require 'pry'; binding.pry
     # --ip is a boolean, it is set to false even if left off by slop
     if arguments.fetch(:ip)
       puts what_is_my_ip
