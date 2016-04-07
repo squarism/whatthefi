@@ -1,23 +1,26 @@
-# Tubes
+# WiTFi
 
-An example of a CLI app using slop for a blog post [here](https://squarism.com/2016-04-06-ruby-slop-example).
+> Wtf is up with my WiFi?
+
+Really this is just an example of a more real-world CLI app using slop for a
+blog post [here](https://squarism.com/2016-04-06-ruby-slop-example).
 
 ```
 # have ruby and bundler installed
 bundle install
 
-./tubes --ip               # shows your IP
-./tubes --port=8080        # show if you can hit :8080 on the internet (test for firewall blocking)
-./tubes --down=github.com  # is github down for just me or everyone?
+./witfi --ip               # shows your IP
+./witfi --port=8080        # is your firewall blocking 8080?
+./witfi --down=github.com  # is github down for just me or everyone?
 
-./tubes -h                 # shows help and short options
+./witfi -h                 # shows help and short options
 
 # copy to your path if you think this is useful
 # add bin to your path if you haven't already
 mkdir ~/bin
 path += ~/bin
 
-cp ./tubes ~/bin
+cp ./witfi ~/bin
 ```
 
 ## Running tests
@@ -26,7 +29,7 @@ cp ./tubes ~/bin
 bundle exec rspec
 
 CLI
-Your IP is 73.25.238.173
+Your IP is X.X.X.X
   lets you check your ip address
 I can get to port 1234 on the Internet.  :)
   lets you see if you can hit a port on the internet
