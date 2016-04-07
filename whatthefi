@@ -131,4 +131,6 @@ class CLI
 
 end
 
+# this kind of sucks, you shouldn't ever change your code to accomodate tests
+# but this is a main
 CLI.new.main if !defined?(RSpec)
