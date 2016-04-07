@@ -1,6 +1,6 @@
 # use load instead of require because I'm intentionally leaving off the
 # rb file extension for a script style command
-load File.expand_path(File.join(File.dirname(__FILE__), '../witfi'))
+load File.expand_path(File.join(File.dirname(__FILE__), '../whatthefi'))
 
 describe CLI do
 

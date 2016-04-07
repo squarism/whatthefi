@@ -1,4 +1,4 @@
-# WiTFi
+# What The Fi?!
 
 > Wtf is up with my WiFi?
 
