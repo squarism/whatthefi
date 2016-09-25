@@ -3,7 +3,7 @@
 > Wtf is up with my WiFi?
 
 Really this is just an example of a more real-world CLI app using slop for a
-blog post [here](https://squarism.com/2016-04-06-ruby-slop-example).
+blog post [here](http://squarism.com/2016/04/06/ruby-slop-example/).
 
 ```
 # have ruby and bundler installed
