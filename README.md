@@ -9,18 +9,18 @@ blog post [here](http://squarism.com/2016/04/06/ruby-slop-example/).
 # have ruby and bundler installed
 bundle install
 
-./witfi --ip               # shows your IP
-./witfi --port=8080        # is your firewall blocking 8080?
-./witfi --down=github.com  # is github down for just me or everyone?
+./whatthefi --ip               # shows your IP
+./whatthefi --port=8080        # is your firewall blocking 8080?
+./whatthefi --down=github.com  # is github down for just me or everyone?
 
-./witfi -h                 # shows help and short options
+./whatthefi -h                 # shows help and short options
 
 # copy to your path if you think this is useful
 # add bin to your path if you haven't already
 mkdir ~/bin
 path += ~/bin
 
-cp ./witfi ~/bin
+cp ./whatthefi ~/bin
 ```
 
 ## Running tests
