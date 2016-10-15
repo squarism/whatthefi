@@ -1,0 +1,6 @@
+- Handle timeouts.
+
+  #<SocketError: getaddrinfo: nodename nor servname provided, or not known>
+  ./bin/whatthefi:124:in `is_it_up': undefined method `match' for nil:NilClass (NoMethodError)
+    from ./bin/whatthefi:90:in `main'
+      from ./bin/whatthefi:136:in `<main>'
