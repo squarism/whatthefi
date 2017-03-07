@@ -16,3 +16,6 @@ dependencies:
 
   stdio:
     github: mosop/stdio
+
+  mocks:
+    github: waterlink/mocks.cr
