@@ -1,4 +1,4 @@
-# What the Wi ?!
+# What the Fi ?!
 
 Wtf is up with my WiFi?  _(really a blog post example about porting Ruby to Crystal)_
 
