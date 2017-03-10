@@ -6,11 +6,11 @@ shards:
 
   cli:
     github: mosop/cli
-    version: 0.6.6
+    version: 0.6.7
 
   optarg:
     github: mosop/optarg
-    version: 0.5.6
+    version: 0.5.7
 
   spec2:
     github: waterlink/spec2.cr
