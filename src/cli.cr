@@ -3,7 +3,7 @@ require "http/client"
 require "json"
 
 class CLI < Cli::Command
-  VERSION = "0.1.0"
+  VERSION = "0.2.0"
 
   command_name "whatthefi"
   version VERSION
